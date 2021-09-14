@@ -87,31 +87,45 @@ def depthFirstSearch(problem):
     print "Start's successors:", problem.getSuccessors(problem.getStartState())
     """
     "*** YOUR CODE HERE ***"
-    # Index 1 = state, Index 2 = action
-    node = [problem.getStartState(), None]
-    # print("TOP NODE", node)
-    if problem.isGoalState(node[0]):
+    node = {"state": problem.getStartState()}
+    if problem.isGoalState(node["state"]):
         return []
     frontier = util.Stack()
     frontier.push(node)
     explored = set()
     while True:
         if frontier.isEmpty():
-            return []
+            return Exception
         node = frontier.pop()
-        explored.add(node[0])
-        # print("NODE 0", node)
-        for x in problem.getSuccessors(node[0]):
-            child = [x[0]]
-            # print(child[0])
-            if child[0] not in explored:
-                if problem.isGoalState(child[0]):
+        explored.add(node["state"])
+        for x in problem.getSuccessors(node["state"]):
+            child = {"state": x[0]}
+            print frontier.list
+            if child["state"] not in explored:
+                if problem.isGoalState(child["state"]):
                     return []
                 frontier.push(child)
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    node = {"state": problem.getStartState()}
+    if problem.isGoalState(node["state"]):
+        return []
+    frontier = util.Queue()
+    frontier.push(node)
+    explored = set()
+    while True:
+        if frontier.isEmpty():
+            return Exception
+        node = frontier.pop()
+        explored.add(node["state"])
+        for x in problem.getSuccessors(node["state"]):
+            child = {"state": x[0]}
+            print frontier.list
+            if child["state"] not in explored:
+                if problem.isGoalState(child["state"]):
+                    return []
+                frontier.push(child)
 
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
