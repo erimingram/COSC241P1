@@ -87,7 +87,8 @@ def depthFirstSearch(problem):
     print "Start's successors:", problem.getSuccessors(problem.getStartState())
     """
     "*** YOUR CODE HERE ***"
-    node = {"state": problem.getStartState()}
+    ##STILL NEED TO ADD Path, Direction, Cost to all the nodes
+    node = {"state": problem.getStartState(), "Path": ["Path to Solution: "]}
     if problem.isGoalState(node["state"]):
         return []
     frontier = util.Stack()
@@ -99,11 +100,17 @@ def depthFirstSearch(problem):
         node = frontier.pop()
         explored.add(node["state"])
         for x in problem.getSuccessors(node["state"]):
-            child = {"state": x[0]}
-            print frontier.list
+            # print x
+            Path = node["Path"]
+            Path.append(x[1])
+            # print("PATH: ", Path)
+            child = {"state": x[0], "Path": Path}
+            ## HOW DO WE SEARCH THE FRONTIER? PUTTING (child not in frontier.list) doesn't work
             if child["state"] not in explored:
                 if problem.isGoalState(child["state"]):
                     return []
+                    # Returns keyError when I try to return path- WHY?
+                    # return child["Path"]
                 frontier.push(child)
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
