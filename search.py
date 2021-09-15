@@ -88,7 +88,7 @@ def depthFirstSearch(problem):
     """
     "*** YOUR CODE HERE ***"
     ##STILL NEED TO ADD Path, Direction, Cost to all the nodes
-    node = {"state": problem.getStartState(), "Path": ["Path to Solution: "]}
+    node = {"state": problem.getStartState(), "Path": [], "Direction": None}
     if problem.isGoalState(node["state"]):
         return []
     frontier = util.Stack()
@@ -104,10 +104,11 @@ def depthFirstSearch(problem):
             Path = node["Path"]
             Path.append(x[1])
             # print("PATH: ", Path)
-            child = {"state": x[0], "Path": Path}
+            child = {"state": x[0], "Path": Path, "Direction": x[1]}
             ## HOW DO WE SEARCH THE FRONTIER? PUTTING (child not in frontier.list) doesn't work
             if child["state"] not in explored:
                 if problem.isGoalState(child["state"]):
+                    print child["Path"]
                     return []
                     # Returns keyError when I try to return path- WHY?
                     # return child["Path"]
@@ -128,7 +129,6 @@ def breadthFirstSearch(problem):
         explored.add(node["state"])
         for x in problem.getSuccessors(node["state"]):
             child = {"state": x[0]}
-            print frontier.list
             if child["state"] not in explored:
                 if problem.isGoalState(child["state"]):
                     return []
