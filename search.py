@@ -94,9 +94,7 @@ def depthFirstSearch(problem):
     frontier = util.Stack()
     frontier.push(node)
     explored = set()
-    while True:
-        if frontier.isEmpty():
-            return Exception
+    while not frontier.isEmpty():
         node = frontier.pop()
         explored.add(node["state"])
         for x in problem.getSuccessors(node["state"]):
@@ -114,9 +112,9 @@ def depthFirstSearch(problem):
                         print loopNode
                     output = list(reversed(output))
                     return output
-                    # Returns keyError when I try to return path- WHY?
-                    # return child["Path"]
                 frontier.push(child)
+    if(frontier.isEmpty()):
+        return Exception
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
