@@ -152,7 +152,32 @@ def breadthFirstSearch(problem):
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    node = {"state": problem.getStartState(), "Parent": None, "Direction": None, "Cost": 0}
+    frontier = util.PriorityQueue()
+    frontier.push(node, node["Cost"])
+    explored = set()
+    while not frontier.isEmpty():
+        node = frontier.pop()
+        if problem.isGoalState(node["state"]):
+            output = []
+            loopNode = node
+            while loopNode["Direction"] is not None:
+                output.append(loopNode["Direction"])
+                loopNode = loopNode["Parent"]
+                # print loopNode
+            output = list(reversed(output))
+            print output
+            return output
+        explored.add(node["state"])
+        for x in problem.getSuccessors(node["state"]):
+            # print x
+            # print("PATH: ", Path)
+            child = {"state": x[0], "Parent": node, "Direction": x[1], "Cost": x[2]}
+            ## HOW DO WE SEARCH THE FRONTIER? PUTTING (child not in frontier.list) doesn't work
+            if child["state"] not in explored:
+                frontier.push(child, child["Cost"])
+    if(frontier.isEmpty()):
+        return Exception
 
 def nullHeuristic(state, problem=None):
     """
@@ -164,7 +189,34 @@ def nullHeuristic(state, problem=None):
 def aStarSearch(problem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    ##STILL NEED TO ADD Path, Direction, Cost to all the nodes
+    node = {"state": problem.getStartState(), "Parent": None, "Direction": None, "Cost": 0}
+    frontier = util.PriorityQueue()
+    print(type(heuristic))
+    frontier.push(node, (node["Cost"] + heuristic(node["state"], problem)))
+    explored = set()
+    while not frontier.isEmpty():
+        node = frontier.pop()
+        if problem.isGoalState(node["state"]):
+            output = []
+            loopNode = node
+            while loopNode["Direction"] is not None:
+                output.append(loopNode["Direction"])
+                loopNode = loopNode["Parent"]
+                # print loopNode
+            output = list(reversed(output))
+            print output
+            return output
+        explored.add(node["state"])
+        for x in problem.getSuccessors(node["state"]):
+            # print x
+            # print("PATH: ", Path)
+            child = {"state": x[0], "Parent": node, "Direction": x[1], "Cost": x[2]}
+            ## HOW DO WE SEARCH THE FRONTIER? PUTTING (child not in frontier.list) doesn't work
+            if child["state"] not in explored:
+                frontier.push(child, (child["Cost"] + heuristic(child["state"], problem)))
+    if(frontier.isEmpty()):
+        return Exception
 
 
 # Abbreviations
