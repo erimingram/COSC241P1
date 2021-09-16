@@ -145,6 +145,7 @@ def breadthFirstSearch(problem):
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
     "*** YOUR CODE HERE ***"
+    ##STILL NEED TO ADD Path, Direction, Cost to all the nodes
     node = {"state": problem.getStartState(), "Parent": None, "Direction": None, "Cost": 0}
     frontier = util.PriorityQueue()
     frontier.push(node, node["Cost"])
@@ -159,16 +160,13 @@ def uniformCostSearch(problem):
                 loopNode = loopNode["Parent"]
                 # print loopNode
             output = list(reversed(output))
-            print output
             return output
-        explored.add(node["state"])
-        for x in problem.getSuccessors(node["state"]):
-            # print x
-            # print("PATH: ", Path)
-            child = {"state": x[0], "Parent": node, "Direction": x[1], "Cost": x[2]}
-            ## HOW DO WE SEARCH THE FRONTIER? PUTTING (child not in frontier.list) doesn't work
-            if child["state"] not in explored:
-                frontier.push(child, child["Cost"])
+        if(node["state"] not in explored):
+            explored.add(node["state"])
+            for x in problem.getSuccessors(node["state"]):
+                child = {"state": x[0], "Parent": node, "Direction": x[1], "Cost": x[2]}
+                if child["state"] not in explored:
+                    frontier.push(child, child["Cost"])
     if(frontier.isEmpty()):
         return Exception
 
