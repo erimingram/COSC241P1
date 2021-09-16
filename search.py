@@ -90,7 +90,7 @@ def depthFirstSearch(problem):
     ##STILL NEED TO ADD Path, Direction, Cost to all the nodes
     node = {"state": problem.getStartState(), "Parent": None, "Direction": None}
     if problem.isGoalState(node["state"]):
-        return []
+        return None
     frontier = util.Stack()
     frontier.push(node)
     explored = set()
@@ -109,8 +109,9 @@ def depthFirstSearch(problem):
                     while loopNode["Direction"] is not None:
                         output.append(loopNode["Direction"])
                         loopNode = loopNode["Parent"]
-                        print loopNode
+                        #print loopNode
                     output = list(reversed(output))
+                    print output
                     return output
                 frontier.push(child)
     if(frontier.isEmpty()):
@@ -118,23 +119,35 @@ def depthFirstSearch(problem):
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
-    node = {"state": problem.getStartState()}
+    ##STILL NEED TO ADD Path, Direction, Cost to all the nodes
+    node = {"state": problem.getStartState(), "Parent": None, "Direction": None}
     if problem.isGoalState(node["state"]):
-        return []
+        return None
     frontier = util.Queue()
     frontier.push(node)
     explored = set()
-    while True:
-        if frontier.isEmpty():
-            return Exception
+    while not frontier.isEmpty():
         node = frontier.pop()
         explored.add(node["state"])
         for x in problem.getSuccessors(node["state"]):
-            child = {"state": x[0]}
+            # print x
+            # print("PATH: ", Path)
+            child = {"state": x[0], "Parent": node, "Direction": x[1]}
+            ## HOW DO WE SEARCH THE FRONTIER? PUTTING (child not in frontier.list) doesn't work
             if child["state"] not in explored:
                 if problem.isGoalState(child["state"]):
-                    return []
+                    output = []
+                    loopNode = child
+                    while loopNode["Direction"] is not None:
+                        output.append(loopNode["Direction"])
+                        loopNode = loopNode["Parent"]
+                        # print loopNode
+                    output = list(reversed(output))
+                    print output
+                    return output
                 frontier.push(child)
+    if (frontier.isEmpty()):
+        return Exception
 
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
