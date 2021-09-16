@@ -101,7 +101,8 @@ def depthFirstSearch(problem):
             # print x
             # print("PATH: ", Path)
             child = {"state": x[0], "Parent": node, "Direction": x[1]}
-            ## HOW DO WE SEARCH THE FRONTIER? PUTTING (child not in frontier.list) doesn't work
+            #inFrontier = filter(lambda FrontierNode: FrontierNode["state"] == child["state"], frontier.list)
+            #print(child["state"], " ", inFrontier)
             if child["state"] not in explored:
                 if problem.isGoalState(child["state"]):
                     output = []
@@ -111,7 +112,6 @@ def depthFirstSearch(problem):
                         loopNode = loopNode["Parent"]
                         #print loopNode
                     output = list(reversed(output))
-                    print output
                     return output
                 frontier.push(child)
     if(frontier.isEmpty()):
