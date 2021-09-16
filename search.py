@@ -96,24 +96,21 @@ def depthFirstSearch(problem):
     explored = set()
     while not frontier.isEmpty():
         node = frontier.pop()
-        explored.add(node["state"])
-        for x in problem.getSuccessors(node["state"]):
-            # print x
-            # print("PATH: ", Path)
-            child = {"state": x[0], "Parent": node, "Direction": x[1]}
-            #inFrontier = filter(lambda FrontierNode: FrontierNode["state"] == child["state"], frontier.list)
-            #print(child["state"], " ", inFrontier)
-            if child["state"] not in explored:
-                if problem.isGoalState(child["state"]):
-                    output = []
-                    loopNode = child
-                    while loopNode["Direction"] is not None:
-                        output.append(loopNode["Direction"])
-                        loopNode = loopNode["Parent"]
-                        #print loopNode
-                    output = list(reversed(output))
-                    return output
-                frontier.push(child)
+        if problem.isGoalState(node["state"]):
+            output = []
+            loopNode = node
+            while loopNode["Direction"] is not None:
+                output.append(loopNode["Direction"])
+                loopNode = loopNode["Parent"]
+                # print loopNode
+            output = list(reversed(output))
+            return output
+        if(node["state"] not in explored):
+            explored.add(node["state"])
+            for x in problem.getSuccessors(node["state"]):
+                child = {"state": x[0], "Parent": node, "Direction": x[1]}
+                if child["state"] not in explored:
+                    frontier.push(child)
     if(frontier.isEmpty()):
         return Exception
 def breadthFirstSearch(problem):
@@ -128,27 +125,23 @@ def breadthFirstSearch(problem):
     explored = set()
     while not frontier.isEmpty():
         node = frontier.pop()
-        explored.add(node["state"])
-        for x in problem.getSuccessors(node["state"]):
-            # print x
-            # print("PATH: ", Path)
-            child = {"state": x[0], "Parent": node, "Direction": x[1]}
-            ## HOW DO WE SEARCH THE FRONTIER? PUTTING (child not in frontier.list) doesn't work
-            if child["state"] not in explored:
-                if problem.isGoalState(child["state"]):
-                    output = []
-                    loopNode = child
-                    while loopNode["Direction"] is not None:
-                        output.append(loopNode["Direction"])
-                        loopNode = loopNode["Parent"]
-                        # print loopNode
-                    output = list(reversed(output))
-                    print output
-                    return output
-                frontier.push(child)
-    if (frontier.isEmpty()):
+        if problem.isGoalState(node["state"]):
+            output = []
+            loopNode = node
+            while loopNode["Direction"] is not None:
+                output.append(loopNode["Direction"])
+                loopNode = loopNode["Parent"]
+                # print loopNode
+            output = list(reversed(output))
+            return output
+        if(node["state"] not in explored):
+            explored.add(node["state"])
+            for x in problem.getSuccessors(node["state"]):
+                child = {"state": x[0], "Parent": node, "Direction": x[1]}
+                if child["state"] not in explored:
+                    frontier.push(child)
+    if(frontier.isEmpty()):
         return Exception
-
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
     "*** YOUR CODE HERE ***"
