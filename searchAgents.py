@@ -288,7 +288,9 @@ class CornersProblem(search.SearchProblem):
         # Please add any code here which you would like to use
         # in initializing the problem
         "*** YOUR CODE HERE ***"
-
+        # self.startState = {"Position": self.startingPosition, "C1": False, "C2": False, "C3": False, "C4": False}
+        self.startState = (self.startingPosition, (False, False, False, False))
+        # self.startState = (self.startingPosition, self.corners, None)
 
     def getStartState(self):
         """
@@ -296,14 +298,18 @@ class CornersProblem(search.SearchProblem):
         space)
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        return self.startState
 
     def isGoalState(self, state):
         """
         Returns whether this search state is a goal state of the problem.
         """
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        print ("G", state)
+        if state[1][0] and state[1][1] and state[1][2] and state[1][3]:
+            return True
+        else:
+            return False
 
     def getSuccessors(self, state):
         """
@@ -321,13 +327,35 @@ class CornersProblem(search.SearchProblem):
             # Add a successor state to the successor list if the action is legal
             # Here's a code snippet for figuring out whether a new position hits a wall:
             #   x,y = currentPosition
+            #   x,y = currentPosition
             #   dx, dy = Actions.directionToVector(action)
             #   nextx, nexty = int(x + dx), int(y + dy)
             #   hitsWall = self.walls[nextx][nexty]
 
             "*** YOUR CODE HERE ***"
+            x,y = state[0]
+            dx, dy = Actions.directionToVector(action)
+            nextx, nexty = int(x + dx), int(y + dy)
+            hitsWall = self.walls[nextx][nexty]
+            # print ("HITSWALL", hitsWall, "POS", (nextx, nexty))
+            if not hitsWall:
+                # nextState = (((nextx, nexty), state[1]), action, 1)
+                nextCorners = (state[1][0] or self.corners[0] == (nextx, nexty), state[1][1] or self.corners[1] == (nextx, nexty),
+                               state[1][2] or self.corners[2] == (nextx, nexty), state[1][3] or self.corners[3] == (nextx, nexty))
+                nextState = (((nextx, nexty), nextCorners), action, 1)
+                # nextState = {"Position": (nextx, nexty), "Direction": action, "C1": state["C1"], "C2": state["C2"], "C3": state["C3"], "C4": state["C4"]}
+                # if self.corners[0] == nextState[0][0]:
+                #     nextState[1][0] = True
+                # elif self.corners[1] == nextState[0][0]:
+                #     nextState[0][1][1] = True
+                # elif self.corners[2] == nextState[0][0]:
+                #     nextState[0][1][2] = True
+                # elif self.corners[3] == nextState[0][0]:
+                #     nextState[0][1][3] = True
+                successors.append(nextState)
 
         self._expanded += 1 # DO NOT CHANGE
+        print ("SUCCESSORS", successors)
         return successors
 
     def getCostOfActions(self, actions):
