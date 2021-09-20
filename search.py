@@ -87,7 +87,7 @@ def depthFirstSearch(problem):
     print "Start's successors:", problem.getSuccessors(problem.getStartState())
     """
     "*** YOUR CODE HERE ***"
-    ##STILL NEED TO ADD Path, Direction, Cost to all the nodes
+    print(problem.getStartState())
     node = {"state": problem.getStartState(), "Parent": None, "Direction": None}
     if problem.isGoalState(node["state"]):
         return None
