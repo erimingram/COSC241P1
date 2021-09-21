@@ -16,7 +16,7 @@
 In search.py, you will implement generic search algorithms which are called by
 Pacman agents (in searchAgents.py).
 """
-
+import searchAgents
 import util
 
 class SearchProblem:
@@ -166,7 +166,7 @@ def aStarSearch(problem, heuristic=nullHeuristic):
     while not frontier.isEmpty():
         node = frontier.pop()
         if problem.isGoalState(node["state"]):
-            return getSolution(node)
+            return getSolution(node, problem)
         if (node["state"] not in explored):
             explored.add(node["state"])
             for x in problem.getSuccessors(node["state"]):
@@ -176,11 +176,12 @@ def aStarSearch(problem, heuristic=nullHeuristic):
     if(frontier.isEmpty()):
         return Exception
 
-def getSolution(node):
+def getSolution(node, problem):
     output = []
     loopNode = node
     while loopNode["Direction"] is not None:
         output.append(loopNode["Direction"])
+        print 106-getTotalCost(loopNode), searchAgents.cornersHeuristic(loopNode["state"], problem)
         loopNode = loopNode["Parent"]
         # print loopNode
     output = list(reversed(output))

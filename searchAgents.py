@@ -336,6 +336,9 @@ class CornersProblem(search.SearchProblem):
             nextx, nexty = int(x + dx), int(y + dy)
             hitsWall = self.walls[nextx][nexty]
             if not hitsWall:
+                # print state[1][0]
+                # print self.corners[0]
+                # print (nextx, nexty)
                 nextCorners = (state[1][0] or self.corners[0] == (nextx, nexty), state[1][1] or self.corners[1] == (nextx, nexty),
                                state[1][2] or self.corners[2] == (nextx, nexty), state[1][3] or self.corners[3] == (nextx, nexty))
                 nextState = (((nextx, nexty), nextCorners), action, 1)
@@ -374,11 +377,9 @@ def cornersHeuristic(state, problem):
     """
     corners = problem.corners # These are the corner coordinates
     walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
-
+    # print state
     "*** YOUR CODE HERE ***"
     # return 0
-    xy1 = state[0]
-    xy2 = problem.corners
     #
     # cornerDistances = [[abs(xy2[0][0] - xy2[0][0]) + abs(xy2[0][1] - xy2[0][1]), abs(xy2[0][0] - xy2[1][0]) + abs(xy2[0][1] - xy2[1][1]), abs(xy2[0][0] - xy2[2][0]) + abs(xy2[0][1] - xy2[2][1]), abs(xy2[0][0] - xy2[3][0]) + abs(xy2[0][1] - xy2[3][1])],
     #                     [abs(xy2[0][0] - xy2[1][0]) + abs(xy2[0][1] - xy2[1][1]), abs(xy2[1][0] - xy2[1][0]) + abs(xy2[1][1] - xy2[1][1]), abs(xy2[1][0] - xy2[2][0]) + abs(xy2[1][1] - xy2[2][1]), abs(xy2[1][0] - xy2[3][0]) + abs(xy2[1][1] - xy2[3][1])],
@@ -387,22 +388,40 @@ def cornersHeuristic(state, problem):
     #
     # print cornerDistances
 
-
-    manhattanDistances = [abs(xy1[0] - xy2[0][0]) + abs(xy1[1] - xy2[0][1]), abs(xy1[0] - xy2[1][0]) + abs(xy1[1] - xy2[1][1]),
-                          abs(xy1[0] - xy2[2][0]) + abs(xy1[1] - xy2[2][1]), abs(xy1[0] - xy2[3][0]) + abs(xy1[1] - xy2[3][1])]
-
-    while True:
-        # minValue = min(manhattanDistances)
-        maxValue = max(manhattanDistances)
-
-        index = manhattanDistances.index(maxValue)
-        if not state[1][index]:
-            return manhattanDistances[index]
-        elif state[1][0] and state[1][1] and state[1][2] and state[1][3]:
-            return 0
-        else:
-            # manhattanDistances[index] = 2147483647
-            manhattanDistances[index] = -2147483647
+    # manhattanDistances = [util.manhattanDistance(state[0], problem.corners[0]), util.manhattanDistance(state[0], problem.corners[1]),
+    #                       util.manhattanDistance(state[0], problem.corners[2]), util.manhattanDistance(state[0], problem.corners[3])]
+    manhattanDistances = list()
+    for x in range(len(state[1])):
+        if not state[1][x]:
+            manhattanDistances.append(util.manhattanDistance(state[0], corners[x]))
+    # print manhattanDistances
+    if len(manhattanDistances) > 0:
+        return max(manhattanDistances)
+    else:
+        return 0
+    # for i in range(len(state[1])):
+    #     if state[1][i]:
+    #         manhattanDistances[i] = -2147483647
+    # print manhattanDistances
+    # maxValue = max(manhattanDistances)
+    # if maxValue == -2147483647:
+    #     return 0
+    # else:
+    #     print maxValue
+    #     return maxValue
+    # while True:
+    #     # minValue = min(manhattanDistances)
+    #     maxValue = max(manhattanDistances)
+    #
+    #     index = manhattanDistances.index(maxValue)
+    #     if not state[1][index]:
+    #         # print manhattanDistances
+    #         return manhattanDistances[index]
+    #     elif state[1][0] and state[1][1] and state[1][2] and state[1][3]:
+    #         return 0
+    #     else:
+    #         # manhattanDistances[index] = 2147483647
+    #         manhattanDistances[index] = -2147483647
 
 class AStarCornersAgent(SearchAgent):
     "A SearchAgent for FoodSearchProblem using A* and your foodHeuristic"
@@ -496,7 +515,18 @@ def foodHeuristic(state, problem):
     """
     position, foodGrid = state
     "*** YOUR CODE HERE ***"
-    return 0
+    # print foodGrid.asList()
+    xy1 = position
+    # xy2 = problem.corners
+    # print position
+    manhattanDistances = list()
+    for food in foodGrid.asList():
+        manhattanDistances.append(abs(position[0] - food[0]) + abs(position[1] - food[1]))
+    if len(manhattanDistances) > 0:
+        return max(manhattanDistances)
+    else:
+        return 0
+    # abs(xy1[0] - xy2[0][0]) + abs(xy1[1] - xy2[0][1])
 
 class ClosestDotSearchAgent(SearchAgent):
     "Search for all food using a sequence of searches"
