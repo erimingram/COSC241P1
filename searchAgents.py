@@ -393,9 +393,9 @@ def cornersHeuristic(state, problem):
 
     while True:
         # minValue = min(manhattanDistances)
-        minValue = max(manhattanDistances)
+        maxValue = max(manhattanDistances)
 
-        index = manhattanDistances.index(minValue)
+        index = manhattanDistances.index(maxValue)
         if not state[1][index]:
             return manhattanDistances[index]
         elif state[1][0] and state[1][1] and state[1][2] and state[1][3]:
