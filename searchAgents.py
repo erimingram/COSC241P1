@@ -379,21 +379,21 @@ def cornersHeuristic(state, problem):
     # return 0
     xy1 = state[0]
     xy2 = problem.corners
-
-    cornerDistances = [[abs(xy2[0][0] - xy2[0][0]) + abs(xy2[0][1] - xy2[0][1]), abs(xy2[0][0] - xy2[1][0]) + abs(xy2[0][1] - xy2[1][1]), abs(xy2[0][0] - xy2[2][0]) + abs(xy2[0][1] - xy2[2][1]), abs(xy2[0][0] - xy2[3][0]) + abs(xy2[0][1] - xy2[3][1])],
-                        [abs(xy2[0][0] - xy2[1][0]) + abs(xy2[0][1] - xy2[1][1]), abs(xy2[1][0] - xy2[1][0]) + abs(xy2[1][1] - xy2[1][1]), abs(xy2[1][0] - xy2[2][0]) + abs(xy2[1][1] - xy2[2][1]), abs(xy2[1][0] - xy2[3][0]) + abs(xy2[1][1] - xy2[3][1])],
-                        [abs(xy2[0][0] - xy2[2][0]) + abs(xy2[0][1] - xy2[2][1]),  abs(xy2[1][0] - xy2[2][0]) + abs(xy2[1][1] - xy2[2][1]), abs(xy2[2][0] - xy2[2][0]) + abs(xy2[2][1] - xy2[2][1]), abs(xy2[2][0] - xy2[3][0]) + abs(xy2[2][1] - xy2[3][1])],
-                       [abs(xy2[0][0] - xy2[3][0]) + abs(xy2[0][1] - xy2[3][1]), abs(xy2[1][0] - xy2[3][0]) + abs(xy2[1][1] - xy2[3][1]), abs(xy2[2][0] - xy2[3][0]) + abs(xy2[2][1] - xy2[3][1]), abs(xy2[3][0] - xy2[3][0]) + abs(xy2[3][1] - xy2[3][1])]]
-
-    print cornerDistances
+    #
+    # cornerDistances = [[abs(xy2[0][0] - xy2[0][0]) + abs(xy2[0][1] - xy2[0][1]), abs(xy2[0][0] - xy2[1][0]) + abs(xy2[0][1] - xy2[1][1]), abs(xy2[0][0] - xy2[2][0]) + abs(xy2[0][1] - xy2[2][1]), abs(xy2[0][0] - xy2[3][0]) + abs(xy2[0][1] - xy2[3][1])],
+    #                     [abs(xy2[0][0] - xy2[1][0]) + abs(xy2[0][1] - xy2[1][1]), abs(xy2[1][0] - xy2[1][0]) + abs(xy2[1][1] - xy2[1][1]), abs(xy2[1][0] - xy2[2][0]) + abs(xy2[1][1] - xy2[2][1]), abs(xy2[1][0] - xy2[3][0]) + abs(xy2[1][1] - xy2[3][1])],
+    #                     [abs(xy2[0][0] - xy2[2][0]) + abs(xy2[0][1] - xy2[2][1]),  abs(xy2[1][0] - xy2[2][0]) + abs(xy2[1][1] - xy2[2][1]), abs(xy2[2][0] - xy2[2][0]) + abs(xy2[2][1] - xy2[2][1]), abs(xy2[2][0] - xy2[3][0]) + abs(xy2[2][1] - xy2[3][1])],
+    #                    [abs(xy2[0][0] - xy2[3][0]) + abs(xy2[0][1] - xy2[3][1]), abs(xy2[1][0] - xy2[3][0]) + abs(xy2[1][1] - xy2[3][1]), abs(xy2[2][0] - xy2[3][0]) + abs(xy2[2][1] - xy2[3][1]), abs(xy2[3][0] - xy2[3][0]) + abs(xy2[3][1] - xy2[3][1])]]
+    #
+    # print cornerDistances
 
 
     manhattanDistances = [abs(xy1[0] - xy2[0][0]) + abs(xy1[1] - xy2[0][1]), abs(xy1[0] - xy2[1][0]) + abs(xy1[1] - xy2[1][1]),
                           abs(xy1[0] - xy2[2][0]) + abs(xy1[1] - xy2[2][1]), abs(xy1[0] - xy2[3][0]) + abs(xy1[1] - xy2[3][1])]
 
     while True:
-        minValue = min(manhattanDistances)
-        # minValue = max(manhattanDistances)
+        # minValue = min(manhattanDistances)
+        minValue = max(manhattanDistances)
 
         index = manhattanDistances.index(minValue)
         if not state[1][index]:
@@ -401,8 +401,8 @@ def cornersHeuristic(state, problem):
         elif state[1][0] and state[1][1] and state[1][2] and state[1][3]:
             return 0
         else:
-            manhattanDistances[index] = 2147483647
-            # manhattanDistances[index] = -2147483647
+            # manhattanDistances[index] = 2147483647
+            manhattanDistances[index] = -2147483647
 
 class AStarCornersAgent(SearchAgent):
     "A SearchAgent for FoodSearchProblem using A* and your foodHeuristic"
