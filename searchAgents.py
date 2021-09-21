@@ -288,9 +288,7 @@ class CornersProblem(search.SearchProblem):
         # Please add any code here which you would like to use
         # in initializing the problem
         "*** YOUR CODE HERE ***"
-        # self.startState = {"Position": self.startingPosition, "C1": False, "C2": False, "C3": False, "C4": False}
         self.startState = (self.startingPosition, (False, False, False, False))
-        # self.startState = (self.startingPosition, self.corners, None)
 
     def getStartState(self):
         """
@@ -305,7 +303,7 @@ class CornersProblem(search.SearchProblem):
         Returns whether this search state is a goal state of the problem.
         """
         "*** YOUR CODE HERE ***"
-        print ("G", state)
+        # print ("G", state)
         if state[1][0] and state[1][1] and state[1][2] and state[1][3]:
             return True
         else:
@@ -337,25 +335,14 @@ class CornersProblem(search.SearchProblem):
             dx, dy = Actions.directionToVector(action)
             nextx, nexty = int(x + dx), int(y + dy)
             hitsWall = self.walls[nextx][nexty]
-            # print ("HITSWALL", hitsWall, "POS", (nextx, nexty))
             if not hitsWall:
-                # nextState = (((nextx, nexty), state[1]), action, 1)
                 nextCorners = (state[1][0] or self.corners[0] == (nextx, nexty), state[1][1] or self.corners[1] == (nextx, nexty),
                                state[1][2] or self.corners[2] == (nextx, nexty), state[1][3] or self.corners[3] == (nextx, nexty))
                 nextState = (((nextx, nexty), nextCorners), action, 1)
-                # nextState = {"Position": (nextx, nexty), "Direction": action, "C1": state["C1"], "C2": state["C2"], "C3": state["C3"], "C4": state["C4"]}
-                # if self.corners[0] == nextState[0][0]:
-                #     nextState[1][0] = True
-                # elif self.corners[1] == nextState[0][0]:
-                #     nextState[0][1][1] = True
-                # elif self.corners[2] == nextState[0][0]:
-                #     nextState[0][1][2] = True
-                # elif self.corners[3] == nextState[0][0]:
-                #     nextState[0][1][3] = True
                 successors.append(nextState)
 
         self._expanded += 1 # DO NOT CHANGE
-        print ("SUCCESSORS", successors)
+        # print ("SUCCESSORS", successors)
         return successors
 
     def getCostOfActions(self, actions):
@@ -389,6 +376,31 @@ def cornersHeuristic(state, problem):
     walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
 
     "*** YOUR CODE HERE ***"
+    # print state[0]
+    print state[1]
+    xy1 = state[0]
+    xy2 = problem.corners
+    manhattanDistances = [abs(xy1[0] - xy2[0][0]) + abs(xy1[1] - xy2[0][1]), abs(xy1[0] - xy2[1][0]) + abs(xy1[1] - xy2[1][1]),
+                          abs(xy1[0] - xy2[2][0]) + abs(xy1[1] - xy2[2][1]), abs(xy1[0] - xy2[3][0]) + abs(xy1[1] - xy2[3][1])]
+    # print ("DISTANCES", manhattanDistances)
+    # print ("MIN", min(manhattanDistances))
+    # index = manhattanDistances.index(min(manhattanDistances))
+    # print("INDEX", manhattanDistances.index(min(manhattanDistances)))
+    while True:
+        minValue = min(manhattanDistances)
+        index = manhattanDistances.index(minValue)
+        # print ("DISTANCES", manhattanDistances)
+        # print ("MIN", minValue)
+        # print("INDEX", index)
+        if not state[1][index]:
+            return manhattanDistances[index]
+        elif state[1][0] and state[1][1] and state[1][2] and state[1][3]:
+            return 0
+        else:
+            manhattanDistances[index] = 2147483647
+
+
+    # print abs(xy1[0] - xy2[0]) + abs(xy1[1] - xy2[1])
     return 0 # Default to trivial solution
 
 class AStarCornersAgent(SearchAgent):
