@@ -376,32 +376,33 @@ def cornersHeuristic(state, problem):
     walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
 
     "*** YOUR CODE HERE ***"
-    # print state[0]
-    print state[1]
+    # return 0
     xy1 = state[0]
     xy2 = problem.corners
+
+    cornerDistances = [[abs(xy2[0][0] - xy2[0][0]) + abs(xy2[0][1] - xy2[0][1]), abs(xy2[0][0] - xy2[1][0]) + abs(xy2[0][1] - xy2[1][1]), abs(xy2[0][0] - xy2[2][0]) + abs(xy2[0][1] - xy2[2][1]), abs(xy2[0][0] - xy2[3][0]) + abs(xy2[0][1] - xy2[3][1])],
+                        [abs(xy2[0][0] - xy2[1][0]) + abs(xy2[0][1] - xy2[1][1]), abs(xy2[1][0] - xy2[1][0]) + abs(xy2[1][1] - xy2[1][1]), abs(xy2[1][0] - xy2[2][0]) + abs(xy2[1][1] - xy2[2][1]), abs(xy2[1][0] - xy2[3][0]) + abs(xy2[1][1] - xy2[3][1])],
+                        [abs(xy2[0][0] - xy2[2][0]) + abs(xy2[0][1] - xy2[2][1]),  abs(xy2[1][0] - xy2[2][0]) + abs(xy2[1][1] - xy2[2][1]), abs(xy2[2][0] - xy2[2][0]) + abs(xy2[2][1] - xy2[2][1]), abs(xy2[2][0] - xy2[3][0]) + abs(xy2[2][1] - xy2[3][1])],
+                       [abs(xy2[0][0] - xy2[3][0]) + abs(xy2[0][1] - xy2[3][1]), abs(xy2[1][0] - xy2[3][0]) + abs(xy2[1][1] - xy2[3][1]), abs(xy2[2][0] - xy2[3][0]) + abs(xy2[2][1] - xy2[3][1]), abs(xy2[3][0] - xy2[3][0]) + abs(xy2[3][1] - xy2[3][1])]]
+
+    print cornerDistances
+
+
     manhattanDistances = [abs(xy1[0] - xy2[0][0]) + abs(xy1[1] - xy2[0][1]), abs(xy1[0] - xy2[1][0]) + abs(xy1[1] - xy2[1][1]),
                           abs(xy1[0] - xy2[2][0]) + abs(xy1[1] - xy2[2][1]), abs(xy1[0] - xy2[3][0]) + abs(xy1[1] - xy2[3][1])]
-    # print ("DISTANCES", manhattanDistances)
-    # print ("MIN", min(manhattanDistances))
-    # index = manhattanDistances.index(min(manhattanDistances))
-    # print("INDEX", manhattanDistances.index(min(manhattanDistances)))
+
     while True:
         minValue = min(manhattanDistances)
+        # minValue = max(manhattanDistances)
+
         index = manhattanDistances.index(minValue)
-        # print ("DISTANCES", manhattanDistances)
-        # print ("MIN", minValue)
-        # print("INDEX", index)
         if not state[1][index]:
             return manhattanDistances[index]
         elif state[1][0] and state[1][1] and state[1][2] and state[1][3]:
             return 0
         else:
             manhattanDistances[index] = 2147483647
-
-
-    # print abs(xy1[0] - xy2[0]) + abs(xy1[1] - xy2[1])
-    return 0 # Default to trivial solution
+            # manhattanDistances[index] = -2147483647
 
 class AStarCornersAgent(SearchAgent):
     "A SearchAgent for FoodSearchProblem using A* and your foodHeuristic"
