@@ -166,7 +166,7 @@ def aStarSearch(problem, heuristic=nullHeuristic):
     while not frontier.isEmpty():
         node = frontier.pop()
         if problem.isGoalState(node["state"]):
-            return getSolution(node, problem)
+            return getSolution(node)
         if (node["state"] not in explored):
             explored.add(node["state"])
             for x in problem.getSuccessors(node["state"]):
@@ -176,12 +176,11 @@ def aStarSearch(problem, heuristic=nullHeuristic):
     if(frontier.isEmpty()):
         return Exception
 
-def getSolution(node, problem):
+def getSolution(node):
     output = []
     loopNode = node
     while loopNode["Direction"] is not None:
         output.append(loopNode["Direction"])
-        print 106-getTotalCost(loopNode), searchAgents.cornersHeuristic(loopNode["state"], problem)
         loopNode = loopNode["Parent"]
         # print loopNode
     output = list(reversed(output))

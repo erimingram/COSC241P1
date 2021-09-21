@@ -377,19 +377,7 @@ def cornersHeuristic(state, problem):
     """
     corners = problem.corners # These are the corner coordinates
     walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
-    # print state
-    "*** YOUR CODE HERE ***"
-    # return 0
-    #
-    # cornerDistances = [[abs(xy2[0][0] - xy2[0][0]) + abs(xy2[0][1] - xy2[0][1]), abs(xy2[0][0] - xy2[1][0]) + abs(xy2[0][1] - xy2[1][1]), abs(xy2[0][0] - xy2[2][0]) + abs(xy2[0][1] - xy2[2][1]), abs(xy2[0][0] - xy2[3][0]) + abs(xy2[0][1] - xy2[3][1])],
-    #                     [abs(xy2[0][0] - xy2[1][0]) + abs(xy2[0][1] - xy2[1][1]), abs(xy2[1][0] - xy2[1][0]) + abs(xy2[1][1] - xy2[1][1]), abs(xy2[1][0] - xy2[2][0]) + abs(xy2[1][1] - xy2[2][1]), abs(xy2[1][0] - xy2[3][0]) + abs(xy2[1][1] - xy2[3][1])],
-    #                     [abs(xy2[0][0] - xy2[2][0]) + abs(xy2[0][1] - xy2[2][1]),  abs(xy2[1][0] - xy2[2][0]) + abs(xy2[1][1] - xy2[2][1]), abs(xy2[2][0] - xy2[2][0]) + abs(xy2[2][1] - xy2[2][1]), abs(xy2[2][0] - xy2[3][0]) + abs(xy2[2][1] - xy2[3][1])],
-    #                    [abs(xy2[0][0] - xy2[3][0]) + abs(xy2[0][1] - xy2[3][1]), abs(xy2[1][0] - xy2[3][0]) + abs(xy2[1][1] - xy2[3][1]), abs(xy2[2][0] - xy2[3][0]) + abs(xy2[2][1] - xy2[3][1]), abs(xy2[3][0] - xy2[3][0]) + abs(xy2[3][1] - xy2[3][1])]]
-    #
-    # print cornerDistances
 
-    # manhattanDistances = [util.manhattanDistance(state[0], problem.corners[0]), util.manhattanDistance(state[0], problem.corners[1]),
-    #                       util.manhattanDistance(state[0], problem.corners[2]), util.manhattanDistance(state[0], problem.corners[3])]
     manhattanDistances = list()
     for x in range(len(state[1])):
         if not state[1][x]:
@@ -399,29 +387,6 @@ def cornersHeuristic(state, problem):
         return max(manhattanDistances)
     else:
         return 0
-    # for i in range(len(state[1])):
-    #     if state[1][i]:
-    #         manhattanDistances[i] = -2147483647
-    # print manhattanDistances
-    # maxValue = max(manhattanDistances)
-    # if maxValue == -2147483647:
-    #     return 0
-    # else:
-    #     print maxValue
-    #     return maxValue
-    # while True:
-    #     # minValue = min(manhattanDistances)
-    #     maxValue = max(manhattanDistances)
-    #
-    #     index = manhattanDistances.index(maxValue)
-    #     if not state[1][index]:
-    #         # print manhattanDistances
-    #         return manhattanDistances[index]
-    #     elif state[1][0] and state[1][1] and state[1][2] and state[1][3]:
-    #         return 0
-    #     else:
-    #         # manhattanDistances[index] = 2147483647
-    #         manhattanDistances[index] = -2147483647
 
 class AStarCornersAgent(SearchAgent):
     "A SearchAgent for FoodSearchProblem using A* and your foodHeuristic"
