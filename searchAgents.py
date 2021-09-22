@@ -382,7 +382,6 @@ def cornersHeuristic(state, problem):
     for x in range(len(state[1])):
         if not state[1][x]:
             manhattanDistances.append(util.manhattanDistance(state[0], corners[x]))
-    # print manhattanDistances
     if len(manhattanDistances) > 0:
         return max(manhattanDistances)
     else:
@@ -522,7 +521,7 @@ class ClosestDotSearchAgent(SearchAgent):
         problem = AnyFoodSearchProblem(gameState)
 
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        return search.breadthFirstSearch(problem)
 
 class AnyFoodSearchProblem(PositionSearchProblem):
     """
@@ -558,7 +557,7 @@ class AnyFoodSearchProblem(PositionSearchProblem):
         x,y = state
 
         "*** YOUR CODE HERE ***"
-        util.raiseNotDefined()
+        return self.food[x][y]
 
 def mazeDistance(point1, point2, gameState):
     """
